@@ -1,27 +1,26 @@
-def achaTrechoMaisAgradavel(n, x):
-    if(n == 1):
-        if(x[0] < 0):
-            i = j = k = 0
-            maxSeq = maxSuf = 0
-        else:
-            i = j = k = 1
-            maxSeq = maxSuf = x[0]
-    else:
-        i, j, k, maxSeq, maxSuf = achaTrechoMaisAgradavel(n-1, x)
+def achaTrechoMaisAgradavel(numTotalTrechos, agradabTrechos):
 
-        if(k == 0):
-            k = n
-        maxSuf += x[n-1]
+    inicio = -1
+    fim = -1
+    k = 0
+  
+    somaAtual = 0
+    somaMaximaAtual = 0
 
-        if(maxSuf > maxSeq):
-            i = k
-            j = n
-            maxSeq = maxSuf
-        elif(maxSuf < 0):
-            maxSeq = 0
-            k = 0
+    for i in range(0,numTotalTrechos): 
+  
+        somaAtual += agradabTrechos[i] 
+  
+        if somaMaximaAtual < somaAtual:
+            inicio = k 
+            fim = i  
+            somaMaximaAtual = somaAtual 
+  
+        if somaAtual < 0:
+            k = i+1 
+            somaAtual = 0    
 
-    return i, j, k, maxSeq, maxSuf
+    return inicio + 1, fim + 1
 
 
 def main():
@@ -29,10 +28,7 @@ def main():
     numTotalParadas = int(input())
     agradabTrechos = list(map(int, input().split()))
 
-    print(numTotalParadas)
-    print(agradabTrechos)
-
-    indParadaInicial, indParadaFinal, indSufMax, maxSeq, maxSuf = achaTrechoMaisAgradavel(numTotalParadas - 1, agradabTrechos)
+    indParadaInicial, indParadaFinal = achaTrechoMaisAgradavel(numTotalParadas - 1, agradabTrechos)
 
     print(f"{indParadaInicial} {indParadaFinal}")
 
